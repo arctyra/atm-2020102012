@@ -1,6 +1,5 @@
 package dto;
 
-public class AuthMethod {
-    private String name;
-
+public interface AuthMethod {
+    boolean authenticate(String checkValue);
 }
