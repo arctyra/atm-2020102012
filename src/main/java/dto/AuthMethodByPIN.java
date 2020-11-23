@@ -1,16 +1,17 @@
 package dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Setter;
+
+@AllArgsConstructor
 public class AuthMethodByPIN implements AuthMethod{
 
-    private String valuePIN;
+    private @Setter String valuePIN;
 
     @Override
     public boolean authenticate(String checkValue) {
         return valuePIN.equals(checkValue);
     }
 
-    public AuthMethodByPIN(String valuePIN) {
-        this.valuePIN = valuePIN;
-    }
 
 }
