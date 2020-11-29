@@ -1,6 +1,11 @@
 package dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+
+@AllArgsConstructor
 public class AtmStorage {
-    private CashContainer cashContainer1;
-    private CashContainer cashContainer2;
+    private @Getter @Setter CashContainer cashContainer;
+
 }

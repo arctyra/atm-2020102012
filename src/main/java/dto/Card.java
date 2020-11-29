@@ -1,9 +1,14 @@
 package dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.Date;
 
+@AllArgsConstructor
 public class Card {
-    private int cardNumber;
-    private Date expireDate;
-    private AuthMethod authMethod;
+    private  @Getter final String cardNumber;
+    private  @Getter final Date expireDate;
+    private  @Getter @Setter AuthMethod authMethod;
 }
