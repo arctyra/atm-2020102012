@@ -1,14 +1,18 @@
 package dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
+@Getter
 public class Atm {
-    private @Getter final int atmID;
-    private @Getter final AtmStorage atmStorage;
+    private final int id;
+    private final AtmStorage atmStorage;
+    @Setter
+    private AuthMethod authMethod;
 
-    public boolean authentication(AuthMethod authMethod, String checkValue) {
+    public boolean authentication(String checkValue) {
         return authMethod.authenticate(checkValue);
     }
 

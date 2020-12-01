@@ -1,14 +1,18 @@
 package dto;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
 @AllArgsConstructor
+@Getter
+@Setter
 public class Client {
-    private @Getter final int clientID;
-    private @Getter @Setter String firstName;
-    private @Getter @Setter String lastName;
-    private @Getter @Setter Account account;
+    @Setter(AccessLevel.NONE)
+    private final int id;
+    private String firstName;
+    private String lastName;
+    private Account account;
 
 }
