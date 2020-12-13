@@ -1,67 +1,50 @@
 import dto.*;
-import exceptions.DuplicateRequestException;
-
+import lombok.extern.log4j.Log4j2;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
+@Log4j2
 public class Application {
+
     public static void main(String[] args) {
 
-        AuthMethod authMethodByPIN = new AuthMethodByPIN("123");
+        log.info("Application has started, time = {}", LocalDateTime::now);
+
+        AuthMethod authMethodByPIN = valuePIN -> valuePIN.equals("123");
         Card card = new Card(1,"1234567812345678", LocalDate.of(2020,12,31), authMethodByPIN);
-        Account account = new Account(1, "123456789", new BigDecimal("10000"), "RUB", card);
-        Client client = new Client(1, "Иван", "Иванов", account);
-
-
-        CashContainer cashContainer = new CashContainer(1, "RUB", 1000, 500, 500);
-        AtmStorage atmStorage = new AtmStorage(1, cashContainer);
-        Atm atm = new Atm(1, atmStorage);
-        atm.setAuthMethod(client.getAccount().getCard().getAuthMethod());
+        DebitAccount debitAccount = new DebitAccount(1, "123456789", "RUB", new BigDecimal(10000), card);
+        Client<DebitAccount> client = new Client<>(1, "Иван", "Иванов", debitAccount);
 
         Host host = new Host();
 
-        Request r1 = new Request(RequestType.GET_BALANCE);
-        Request r2 = new Request(RequestType.GET_BALANCE);
+        CashContainer cashContainer = new CashContainer(1, "RUB", 1000, 500, 500);
+        AtmStorage atmStorage = new AtmStorage(1, cashContainer);
+        Atm atm = new Atm(1, atmStorage, host);
+        atm.setAuthMethod(client.getAccount().getCard().getAuthMethod());
 
+        if (atm.isAuthenticated("123")) {
+            log.info("Пин-код введён корректно.");
 
-        if (atm.authentication("123")) {
-            System.out.println("Пин-код введён корректно.");
+            if (atm.getAtmStorage().getCashContainer().getCash(2)) {
 
-            System.out.println("Отправка запроса: " + r1);
-            try {
-                host.addRequest(r1);
-            } catch (DuplicateRequestException e) {
-                System.out.println("Дублирующийся запрос отклонен: " + r1);
+                log.info("Баланс до снятия: {}", client.getAccount().getAmount());
+
+                BigDecimal newAmount = client.getAccount().getAmount().subtract(BigDecimal.valueOf(2000));
+
+                client.getAccount().setAmount(newAmount);
+
+                log.info("Получены 2000 рублей");
+
+                log.info("Баланс после снятия: {}", client.getAccount().getAmount());
+            } else {
+               log.info("В банкомате не хватает запрашиваемой суммы денег!");
             }
-
-            System.out.println("Отправка запроса: " + r2);
-            try {
-                host.addRequest(r2);
-            } catch (DuplicateRequestException e) {
-                System.out.println("Дублирующийся запрос отклонен: " + r2);
-            }
-
-
-
-//            if (atm.getAtmStorage().getCashContainer().getCash(2)) {
-//
-//                System.out.println("Баланс до снятия: " + client.getAccount().getAmount());
-//
-//                BigDecimal newAmount = client.getAccount().getAmount().subtract(BigDecimal.valueOf(2000));
-//
-//                client.getAccount().setAmount(newAmount);
-//
-//                System.out.println("Получены 2000 рублей");
-//
-//                System.out.println("Баланс после снятия: " + client.getAccount().getAmount());
-//            } else {
-//                System.out.println("В банкомате не хватает запрашиваемой суммы денег!");
-//            }
 
         } else {
-            System.out.println("Пин-код введён некорректно!");
+            log.warn("Пин-код введён некорректно!");
         }
 
-
+        log.info("Application has ended, time = {}", LocalDateTime::now);
     }
 }

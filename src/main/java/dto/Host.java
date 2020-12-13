@@ -5,8 +5,8 @@ import exceptions.DuplicateRequestException;
 import java.util.*;
 
 public class Host {
-    private Set<Request> requestSet = new HashSet<>();
-    private Deque<Request> requestDeque = new ArrayDeque<>();
+    private final Set<Request> requestSet = new HashSet<>();
+    private final Deque<Request> requestDeque = new ArrayDeque<>();
 
     public void addRequest(Request r) throws DuplicateRequestException {
         if (requestSet.contains(r)) {

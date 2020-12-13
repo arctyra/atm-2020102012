@@ -6,8 +6,9 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public enum RequestType {
-    GET_BALANCE(1),
-    WITHDRAW_CASH(2);
+    AUTHENTICATE(1),
+    GET_BALANCE(2),
+    WITHDRAW_CASH(3);
 
     private final int id;
 

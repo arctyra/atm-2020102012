@@ -8,11 +8,11 @@ import lombok.Setter;
 @AllArgsConstructor
 @Getter
 @Setter
-public class Client {
+public class Client <T extends Account> {
     @Setter(AccessLevel.NONE)
     private final int id;
     private String firstName;
     private String lastName;
-    private Account account;
+    private T account;
 
 }
