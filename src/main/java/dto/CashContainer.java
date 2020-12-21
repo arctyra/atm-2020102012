@@ -4,12 +4,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @AllArgsConstructor
+@Getter
 public class CashContainer {
-    private @Getter final int containerID;
-    private @Getter final String currency;
-    private @Getter final int denomination;
-    private @Getter final int maxCapacity;
-    private @Getter int itemsCount;
+    private final int id;
+    private final String currency;
+    private final int denomination;
+    private final int maxCapacity;
+    private int itemsCount;
 
     public boolean getCash(int count) {
         if (itemsCount >= count) {

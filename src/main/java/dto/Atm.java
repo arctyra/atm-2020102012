@@ -1,15 +1,35 @@
 package dto;
 
-import lombok.AllArgsConstructor;
+import exceptions.DuplicateRequestException;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
+import lombok.Setter;
+import lombok.extern.log4j.Log4j2;
+import java.util.function.Predicate;
 
-@AllArgsConstructor
+@Log4j2
+@RequiredArgsConstructor
+@Getter
 public class Atm {
-    private @Getter final int atmID;
-    private @Getter final AtmStorage atmStorage;
+    private final int id;
+    private final AtmStorage atmStorage;
+    private final Host host;
+    @Setter
+    private AuthMethod authMethod;
 
-    public boolean authentication(AuthMethod authMethod, String checkValue) {
-        return authMethod.authenticate(checkValue);
+
+    public boolean isAuthenticated(String checkValue) {
+
+        Request r = new Request(RequestType.AUTHENTICATE);
+
+        log.debug("Отправка запроса: {}", r);
+        try {
+            host.addRequest(r);
+        } catch (DuplicateRequestException e) {
+            log.warn("Дублирующийся запрос отклонен: {}", r);
+        }
+
+        return authMethod.test(checkValue);
     }
 
 }

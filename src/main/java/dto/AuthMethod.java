@@ -1,5 +1,6 @@
 package dto;
 
-public interface AuthMethod {
-    boolean authenticate(String checkValue);
+import java.util.function.Predicate;
+
+public interface AuthMethod extends Predicate<String> {
 }
