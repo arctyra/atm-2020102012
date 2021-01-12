@@ -13,4 +13,7 @@ public class AtmStorage {
     private final int id;
     private CashContainer cashContainer;
 
+    public CashContainer getCashContainer(Cash cash) {
+        return cashContainer;
+    }
 }

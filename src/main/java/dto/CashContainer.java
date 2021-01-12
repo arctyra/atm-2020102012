@@ -7,8 +7,7 @@ import lombok.Getter;
 @Getter
 public class CashContainer {
     private final int id;
-    private final String currency;
-    private final int denomination;
+    private final Cash cash;
     private final int maxCapacity;
     private int itemsCount;
 

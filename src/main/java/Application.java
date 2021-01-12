@@ -1,8 +1,13 @@
 import dto.*;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import services.AtmFactoryService;
+import services.ClientFactoryService;
+
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import static dto.Cash.*;
 
 @Log4j2
 public class Application {
@@ -11,36 +16,34 @@ public class Application {
 
         log.info("Application has started, time = {}", LocalDateTime::now);
 
-        AuthMethod authMethodByPIN = valuePIN -> valuePIN.equals("123");
-        Card card = new Card(1,"1234567812345678", LocalDate.of(2020,12,31), authMethodByPIN);
-        DebitAccount debitAccount = new DebitAccount(1, "123456789", "RUB", new BigDecimal(10000), card);
-        Client<DebitAccount> client = new Client<>(1, "Иван", "Иванов", debitAccount);
+        String inputCardNumber = "1234567812345678";
+        String inputPIN = "123";
 
-        Host host = new Host();
+        ApplicationContext ctx = new AnnotationConfigApplicationContext(MyApplicationContextConfiguration.class);
 
-        CashContainer cashContainer = new CashContainer(1, "RUB", 1000, 500, 500);
-        AtmStorage atmStorage = new AtmStorage(1, cashContainer);
-        Atm atm = new Atm(1, atmStorage, host);
-        atm.setAuthMethod(client.getAccount().getCard().getAuthMethod());
+//        Atm atm = AtmFactoryService.createAtm();
+        Atm atm = ctx.getBean(Atm.class);
+        Client<DebitAccount> client = ClientFactoryService.createDebitAccountClient();
 
-        if (atm.isAuthenticated("123")) {
+        client.setInputCardNumber(inputCardNumber);
+        atm.setAuthMethod(client.getAuthMethod());
+
+        if (atm.isAuthenticated(inputPIN)) {
             log.info("Пин-код введён корректно.");
 
-            if (atm.getAtmStorage().getCashContainer().getCash(2)) {
+            if (atm.getCash(RUB_1000, 2)) {
 
-                log.info("Баланс до снятия: {}", client.getAccount().getAmount());
+                log.info("Баланс до снятия: {}", client.getBalance());
 
-                BigDecimal newAmount = client.getAccount().getAmount().subtract(BigDecimal.valueOf(2000));
-
-                client.getAccount().setAmount(newAmount);
-
-                log.info("Получены 2000 рублей");
-
-                log.info("Баланс после снятия: {}", client.getAccount().getAmount());
+                if (client.receiveMoney(BigDecimal.valueOf(2000))) {
+                    log.info("Получены 2000 рублей");
+                    log.info("Баланс после снятия: {}", client.getBalance());
+                } else {
+                    log.info("На счёте недостаточно средств!");
+                }
             } else {
                log.info("В банкомате не хватает запрашиваемой суммы денег!");
             }
-
         } else {
             log.warn("Пин-код введён некорректно!");
         }

@@ -1,18 +1,34 @@
 package dto;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-@AllArgsConstructor
+import java.math.BigDecimal;
+import java.util.function.Predicate;
+
+@RequiredArgsConstructor
 @Getter
 @Setter
 public class Client <T extends Account> {
     @Setter(AccessLevel.NONE)
     private final int id;
+    @NonNull
     private String firstName;
+    @NonNull
     private String lastName;
+    @NonNull
     private T account;
 
+    private String inputCardNumber;
+
+    public Predicate<String> getAuthMethod() {
+        return account.getCard(inputCardNumber).getAuthMethod();
+    }
+
+    public BigDecimal getBalance() {
+        return account.getAmount();
+    }
+
+    public boolean receiveMoney(BigDecimal amount) {
+        return account.withdrawAmount(amount);
+    }
 }
