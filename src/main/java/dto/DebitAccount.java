@@ -17,7 +17,7 @@ public class DebitAccount implements Account{
     private final Currency currency;
 
     @Setter
-    @PositiveOrZero
+    @PositiveOrZero(message = "must be greater than or equal to 0")
     private  BigDecimal amount;
 
     @Setter

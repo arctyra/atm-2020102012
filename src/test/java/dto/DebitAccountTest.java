@@ -44,7 +44,7 @@ class DebitAccountTest {
                 validator.validate( debitAccount );
 
         assertEquals( 1, constraintViolations.size() );
-        assertEquals( "должно быть больше или равно 0", constraintViolations.iterator().next().getMessage() );
+        assertEquals( "must be greater than or equal to 0", constraintViolations.iterator().next().getMessage() );
     }
 
     @Test
