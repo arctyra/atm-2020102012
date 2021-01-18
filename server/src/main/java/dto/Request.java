@@ -1,5 +1,6 @@
 package dto;
 
+import enums.RequestType;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

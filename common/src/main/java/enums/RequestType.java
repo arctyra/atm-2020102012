@@ -1,14 +1,15 @@
-package dto;
+package enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public enum Currency {
-    RUB(1),
-    USD(2),
-    EUR(3);
+public enum RequestType {
+    AUTHENTICATE(1),
+    GET_BALANCE(2),
+    WITHDRAW_CASH(3);
 
     private final int id;
+
 }

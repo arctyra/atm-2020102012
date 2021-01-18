@@ -1,13 +1,15 @@
-import dto.*;
+import configuration.MyApplicationContextConfiguration;
+import dto.Atm;
+import dto.Client;
+import dto.DebitAccount;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import services.AtmFactoryService;
-import services.ClientFactoryService;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import static dto.Cash.*;
+
+import static enums.Cash.*;
 
 @Log4j2
 public class Application {
@@ -21,9 +23,8 @@ public class Application {
 
         ApplicationContext ctx = new AnnotationConfigApplicationContext(MyApplicationContextConfiguration.class);
 
-//        Atm atm = AtmFactoryService.createAtm();
         Atm atm = ctx.getBean(Atm.class);
-        Client<DebitAccount> client = ClientFactoryService.createDebitAccountClient();
+        Client<DebitAccount> client = ctx.getBean(Client.class);
 
         client.setInputCardNumber(inputCardNumber);
         atm.setAuthMethod(client.getAuthMethod());

@@ -1,9 +1,9 @@
-package dto;
+package enums;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
-import static dto.Currency.*;
+import static enums.Currency.*;
 
 @AllArgsConstructor
 @Getter

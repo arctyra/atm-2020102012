@@ -1,5 +1,7 @@
 package dto;
 
+import enums.Cash;
+import enums.RequestType;
 import exceptions.DuplicateRequestException;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

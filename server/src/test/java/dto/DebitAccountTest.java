@@ -7,7 +7,7 @@ import jakarta.validation.ValidatorFactory;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.executable.ExecutableValidator;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.lang.annotation.Annotation;
@@ -15,7 +15,7 @@ import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.util.Set;
 
-import static dto.Currency.*;
+import static enums.Currency.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class DebitAccountTest {
@@ -23,8 +23,8 @@ class DebitAccountTest {
     private static Validator validator;
     private static ExecutableValidator executableValidator;
 
-    @BeforeEach
-    void setUp() {
+    @BeforeAll
+    static void setUp() {
         ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
         executableValidator = factory.getValidator().forExecutables();

@@ -1,5 +1,6 @@
 package dto;
 
+import enums.Cash;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
