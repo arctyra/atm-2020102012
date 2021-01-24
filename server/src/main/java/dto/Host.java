@@ -10,7 +10,7 @@ public class Host {
 
     public void addRequest(Request r) throws DuplicateRequestException {
         if (requestSet.contains(r)) {
-            throw new DuplicateRequestException();
+            throw new DuplicateRequestException(r.toString());
         }
         requestSet.add(r);
         requestDeque.add(r);

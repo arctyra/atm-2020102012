@@ -1,6 +1,6 @@
 package exceptions;
 
-public class DuplicateRequestException extends Exception{
+public class DuplicateRequestException extends RuntimeException{
     public DuplicateRequestException() {
     }
 

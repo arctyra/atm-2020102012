@@ -1,5 +1,6 @@
 package dto;
 
+import enums.Cash;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,4 +14,7 @@ public class AtmStorage {
     private final int id;
     private CashContainer cashContainer;
 
+    public CashContainer getCashContainer(Cash cash) {
+        return cashContainer;
+    }
 }
